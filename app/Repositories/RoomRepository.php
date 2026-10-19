@@ -417,6 +417,71 @@ class RoomRepository
     }
 
     /**
+     * Update a facility's name and/or description.
+     *
+     * @param array $data Optional keys: name, description. Unset keys keep old values.
+     * @throws PDOException on duplicate name (23000).
+     */
+    public function updateFacility(int $facilityId, array $data): bool
+    {
+        $sql    = 'UPDATE facilities SET ';
+        $set    = [];
+        $params = [];
+
+        if (array_key_exists('name', $data)) {
+            $set[] = 'name = :name';
+            $params[':name'] = $data['name'];
+        }
+        if (array_key_exists('description', $data)) {
+            $set[] = 'description = :description';
+            $params[':description'] = $data['description'];
+        }
+
+        if ($set === []) {
+            return false;
+        }
+
+        $stmt = $this->pdo->prepare($sql . implode(', ', $set) . ' WHERE id = :facility_id');
+        $params[':facility_id'] = $facilityId;
+        return $stmt->execute($params);
+    }
+
+    /**
+     * Remove a facility record entirely. The row is deleted from
+     * room_facilities by the FK when rooms no longer reference it;
+     * MariaDB raises constraint 23000 while any room still uses it.
+     */
+    public function deleteFacility(int $facilityId): bool
+    {
+        $stmt = $this->pdo->prepare(
+            'DELETE FROM facilities
+             WHERE  id = :facility_id
+             LIMIT  1'
+        );
+        return $stmt->execute([':facility_id' => $facilityId]);
+    }
+
+    /**
+     * Room usage per facility for management listings.
+     *
+     * @return array Map of facility_id => number of rooms using it.
+     */
+    public function findRoomCountsByFacility(): array
+    {
+        $stmt = $this->pdo->prepare(
+            'SELECT facility_id, COUNT(*) AS room_count
+             FROM   room_facilities
+             GROUP  BY facility_id'
+        );
+        $stmt->execute();
+        $counts = [];
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $counts[(int) $row['facility_id']] = (int) $row['room_count'];
+        }
+        return $counts;
+    }
+
+    /**
      * @return array The facilities assigned to one room: id, name, description.
      */
     public function getRoomFacilities(int $roomId): array
