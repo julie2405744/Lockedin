@@ -11,7 +11,8 @@
  */
 
 $roomsNavSections = [
-    'floors' => ['label' => 'Floors', 'href' => $basePath . '/admin/floors.php'],
+    'floors' => ['label' => 'Floors',  'href' => $basePath . '/admin/floors.php'],
+    'rooms'  => ['label' => 'Rooms',   'href' => $basePath . '/admin/rooms.php'],
 ];
 ?>
 <nav class="rooms-nav" aria-label="Room management sections">

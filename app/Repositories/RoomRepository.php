@@ -214,6 +214,26 @@ class RoomRepository
     }
 
     /**
+     * Facility counts per room for management listings.
+     *
+     * @return array Map of room_id => facility count (int).
+     */
+    public function findFacilityCountsByRoom(): array
+    {
+        $stmt = $this->pdo->prepare(
+            'SELECT room_id, COUNT(*) AS facility_count
+             FROM   room_facilities
+             GROUP  BY room_id'
+        );
+        $stmt->execute();
+        $counts = [];
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $counts[(int) $row['room_id']] = (int) $row['facility_count'];
+        }
+        return $counts;
+    }
+
+    /**
      * @return array|null The room row, or null if not found.
      */
     public function findRoomById(int $roomId): ?array
