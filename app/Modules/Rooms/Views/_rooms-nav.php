@@ -15,6 +15,7 @@ $roomsNavSections = [
     'rooms'      => ['label' => 'Rooms',           'href' => $basePath . '/admin/rooms.php'],
     'facilities' => ['label' => 'Facilities',      'href' => $basePath . '/admin/facilities.php'],
     'hours'      => ['label' => 'Operating hours', 'href' => $basePath . '/admin/operating-hours.php'],
+    'closures'   => ['label' => 'Closures',        'href' => $basePath . '/admin/closures.php'],
 ];
 ?>
 <nav class="rooms-nav" aria-label="Room management sections">
