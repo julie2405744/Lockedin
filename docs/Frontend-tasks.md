@@ -30,9 +30,12 @@ Follow the existing InFocus design system:
 
 | Element | Value |
 |---|---|
-| Primary | `#2563EB` |
-| Primary hover | `#1D4ED8` |
-| Soft primary | `#EFF6FF` |
+| Primary | `#13285E` |
+| Primary hover | `#0D1C45` |
+| Soft primary | `#EEF1F8` |
+| Accent | `#E64D69` |
+| Accent hover | `#C93D58` |
+| Soft accent | `#FFF0F3` |
 | Headings | `#172B4D` |
 | Body text | `#475569` |
 | Muted text | `#64748B` |
@@ -47,8 +50,11 @@ Follow the existing InFocus design system:
 - Follow the shared spacing scale: 4, 8, 12, 16, 24, 32, 40, and 48 px.
 - Use 12 px card corners and 8 px form-control and button corners.
 - Room cards should use a consistent 16:9 image area.
-- Follow the clean, professional workspace-directory style of the reference website.
-- Avoid glassmorphism, excessive gradients, clutter, and unnecessary animations.
+- Follow the reference's deep-navy hero, white elevated search panel, compact navigation, and spacious directory-listing rhythm, while retaining InFocus content and routes.
+- Use coral only for prominent promotional actions. Use the navy primary color for normal application actions and navigation.
+- Use inline SVGs for UI and placeholder icons; do not use emoji or add an icon library for small icon needs.
+- Use brief entrance and hover transitions only when they clarify hierarchy or feedback. Respect `prefers-reduced-motion` and avoid continuous, decorative motion.
+- Avoid glassmorphism, excessive gradients, and clutter.
 - Reuse shared buttons, badges, alerts, forms, layouts, and navigation.
 
 ### Git workflow
@@ -83,6 +89,7 @@ A frontend feature is complete only when:
 - It has no unfinished placeholder buttons or links.
 - It works on mobile, tablet, and desktop.
 - Its labels, keyboard navigation, and focus indicators are usable.
+- Any icon-only interactive control has an accessible name, and nonessential motion respects the user's reduced-motion preference.
 - It does not duplicate backend rules or access the database directly from views.
 - Screenshots and a short testing checklist are included in the pull request.
 
@@ -151,7 +158,8 @@ Authentication views should follow the existing project structure rather than cr
 7. Create reusable badges for reservation and modification statuses.
 8. Provide reusable alerts, empty states, and confirmation patterns.
 9. Keep global colors, typography, and spacing in one place.
-10. Coordinate changes to shared files before other members depend on them.
+10. Use the shared SVG icon treatment and retain the visible skip link and focus states in shared layouts.
+11. Coordinate changes to shared files before other members depend on them.
 
 ### Acceptance criteria
 
@@ -161,6 +169,7 @@ Authentication views should follow the existing project structure rather than cr
 - Forms display understandable validation and authentication messages.
 - Other members can reuse shared components without copying their CSS.
 - Keyboard navigation and visible focus states work.
+- Icons are SVG-based, and any motion is subtle and reduced when requested by the operating system.
 
 ### Tests to submit
 
@@ -626,6 +635,8 @@ Every frontend pull request must confirm:
 - [ ] Success, error, empty, and permission states are handled.
 - [ ] Mobile, tablet, and desktop layouts have been tested.
 - [ ] Keyboard focus and form labels are usable.
+- [ ] UI icons are SVG-based rather than emoji, and icon-only controls have accessible names.
+- [ ] Motion is subtle and supports `prefers-reduced-motion`.
 - [ ] Screenshots and test results are included.
 - [ ] No debug output, secrets, unrelated files, or placeholder actions remain.
 

@@ -1,6 +1,3 @@
-# `database.sql` — Study Room Booking System
-
-```sql
 -- ============================================================
 -- Study Room Booking System (Workspace)
 -- Database: MySQL / MariaDB on XAMPP
@@ -425,5 +422,4 @@ CREATE TABLE IF NOT EXISTS reservation_modifications (
 -- controlled administrative setup process. Public registration
 -- must always assign the student role on the server.
 -- ============================================================
-```
 

@@ -5,7 +5,7 @@
 
 ## 1. Design Direction
 
-InFocus should follow the clean, professional workspace-directory style of the reference website.
+InFocus follows a clean, professional workspace-directory style inspired by the reference website: a deep-navy image hero, a white search panel, compact navigation, spacious results, and a restrained coral accent.
 
 The interface should emphasize:
 
@@ -13,14 +13,15 @@ The interface should emphasize:
 - Prominent search and filtering.
 - Image-based room cards.
 - Clear typography and readable room information.
-- Subtle borders and shadows.
+- A deep-navy hero with a white, elevated search panel.
+- Subtle borders, soft shadows, and small hover lifts.
 - Consistent spacing and alignment.
 - Simple, intuitive booking workflows.
 - Responsive layouts for desktop, tablet, and mobile.
 
 Adapt the reference to a university study-room booking platform. Replace coworking-specific features with room categories, floor information, capacity, facilities, operating hours, reservations, and availability.
 
-Avoid excessive gradients, glassmorphism, decorative animations, unnecessary visual effects, emoji headings, and cluttered layouts.
+Avoid excessive gradients, glassmorphism, decorative animations, emoji, and cluttered layouts. Use inline SVG icons for UI affordances and illustrative placeholders.
 
 ## 2. Brand Identity
 
@@ -34,9 +35,12 @@ Use the following palette consistently throughout the application.
 
 | Token              | Hex       | Purpose                                          |
 | ------------------ | --------- | ------------------------------------------------ |
-| Primary            | `#2563EB` | Primary buttons, active links, selected controls |
-| Primary Hover      | `#1D4ED8` | Hover state for primary actions                  |
-| Primary Soft       | `#EFF6FF` | Selected filters and subtle highlights           |
+| Primary            | `#13285E` | Primary buttons, active links, and headings      |
+| Primary Hover      | `#0D1C45` | Hover state for primary actions                  |
+| Primary Soft       | `#EEF1F8` | Selected filters and subtle highlights           |
+| Accent             | `#E64D69` | Promotional calls to action and visual emphasis  |
+| Accent Hover       | `#C93D58` | Hover state for accent actions                   |
+| Accent Soft        | `#FFF0F3` | Soft accent backgrounds                           |
 | Heading            | `#172B4D` | Main headings and important text                 |
 | Body Text          | `#475569` | Paragraphs and descriptions                      |
 | Muted Text         | `#64748B` | Metadata and supporting information              |
@@ -55,9 +59,12 @@ Use CSS custom properties for shared colors.
 
 ```css
 :root {
-    --color-primary: #2563EB;
-    --color-primary-hover: #1D4ED8;
-    --color-primary-soft: #EFF6FF;
+    --color-primary: #13285E;
+    --color-primary-hover: #0D1C45;
+    --color-primary-soft: #EEF1F8;
+    --color-accent: #E64D69;
+    --color-accent-hover: #C93D58;
+    --color-accent-soft: #FFF0F3;
 
     --color-heading: #172B4D;
     --color-text: #475569;
@@ -80,7 +87,7 @@ Use CSS custom properties for shared colors.
 }
 ```
 
-Do not introduce a second palette for individual modules.
+The landing page may use the accent color for prominent promotional actions. Authenticated application actions use the primary navy by default. Do not introduce another palette for individual modules.
 
 ## 3. Typography
 
@@ -171,6 +178,14 @@ Navigation must reflect the authenticated user's role. Hiding links does not rep
 - Stack page headings and action buttons when necessary.
 - Ensure controls remain easy to tap.
 
+### Landing page treatment
+
+- Use a full-width, deep-navy image hero with an accessible overlay so headings remain readable.
+- Keep the landing navigation transparent over the hero; it becomes solid navy after scrolling.
+- Center a white, elevated search panel in the hero. It must stack cleanly on narrow screens.
+- Use coral sparingly for a high-priority signup or promotional action; do not use it for status colors.
+- Use short entrance transitions and subtle card lifts only; motion must be disabled or greatly reduced for `prefers-reduced-motion`.
+
 ## 6. Room Discovery Page
 
 The room discovery page is the main page inspired by the reference website's workspace listing.
@@ -236,7 +251,7 @@ Do not display unrelated coworking information such as prices, ratings, business
 - Content padding of approximately `16–20px`.
 - Clear distinction between title and metadata.
 - Subtle hover state.
-- No unnecessary animation.
+- Use only a small shadow and upward lift on hover. Do not use continuous or decorative animation.
 
 Room cards should have reasonably consistent heights within each grid row.
 
@@ -497,6 +512,7 @@ Test intermediate widths, not just the breakpoints themselves.
 - Add useful alternative text to meaningful room images.
 - Give icon-only buttons accessible names.
 - Respect reduced-motion preferences if transitions are used.
+- Do not use emoji as interface icons. Use inline SVGs with `aria-hidden="true"` when adjacent text supplies the meaning; give standalone interactive icons an accessible name.
 
 ## 16. Images and Assets
 
@@ -506,6 +522,7 @@ Test intermediate widths, not just the breakpoints themselves.
 - Avoid relying on unstable external image URLs.
 - Optimize assets for loading performance.
 - Ensure missing images do not break the layout.
+- Use vector icons for interface symbols; do not add an icon framework solely for a small set of icons.
 
 ## 17. Architecture and Implementation Constraints
 
