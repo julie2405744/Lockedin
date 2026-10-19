@@ -11,11 +11,16 @@
  * Optional:
  *   $pageSubtitle (string) — subtitle shown below the page heading
  *   $pageActions  (string) — HTML for action buttons in the page header
+ *   $pageStyles   (string) — optional extra <link> tags for module CSS
+ *   $pageScripts  (string) — optional extra <script> tags
+ *                            (coordinated additions, used by Member 2+)
  */
 
 $pageTitle    = $pageTitle    ?? 'InFocus';
 $pageSubtitle = $pageSubtitle ?? '';
 $pageActions  = $pageActions  ?? '';
+$pageStyles   = $pageStyles   ?? '';
+$pageScripts  = $pageScripts  ?? '';
 $currentUser  = $currentUser  ?? ['name' => '', 'email' => '', 'role' => 'student'];
 $basePath     = defined('BASE_PATH') ? BASE_PATH : '';
 
@@ -42,6 +47,7 @@ $isActivePath = static fn(string $path): bool => $path === $currentPath;
     <link rel="stylesheet" href="<?= htmlspecialchars($basePath) ?>/assets/css/base.css">
     <link rel="stylesheet" href="<?= htmlspecialchars($basePath) ?>/assets/css/layout.css">
     <link rel="stylesheet" href="<?= htmlspecialchars($basePath) ?>/assets/css/components.css">
+    <?= $pageStyles ?>
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -180,5 +186,6 @@ $isActivePath = static fn(string $path): bool => $path === $currentPath;
 </div><!-- .page-shell -->
 
 <script src="<?= htmlspecialchars($basePath) ?>/assets/js/navigation.js" defer></script>
+<?= $pageScripts ?>
 </body>
 </html>

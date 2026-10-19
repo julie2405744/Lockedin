@@ -189,6 +189,31 @@ class RoomRepository
     }
 
     /**
+     * Room totals per floor for management listings.
+     *
+     * @return array Map of floor_id => ['total' => int, 'active' => int].
+     */
+    public function findRoomCountsByFloor(): array
+    {
+        $stmt = $this->pdo->prepare(
+            'SELECT floor_id,
+                    COUNT(*) AS total,
+                    SUM(CASE WHEN status = \'active\' THEN 1 ELSE 0 END) AS active_count
+             FROM   rooms
+             GROUP  BY floor_id'
+        );
+        $stmt->execute();
+        $counts = [];
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $counts[(int) $row['floor_id']] = [
+                'total'  => (int) $row['total'],
+                'active' => (int) $row['active_count'],
+            ];
+        }
+        return $counts;
+    }
+
+    /**
      * @return array|null The room row, or null if not found.
      */
     public function findRoomById(int $roomId): ?array
