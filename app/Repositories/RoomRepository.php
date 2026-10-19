@@ -628,6 +628,25 @@ class RoomRepository
         return $stmt->execute([':interval_id' => $intervalId, ':room_id' => $roomId]);
     }
 
+    /**
+     * Every room's schedule in one query, for management listings.
+     *
+     * @return array Rows: shared interval columns + room_name, ordered
+     *               by room name, then day, then opens_at.
+     */
+    public function getAllOperatingHours(): array
+    {
+        $stmt = $this->pdo->prepare(
+            'SELECT oh.id, oh.room_id, oh.day_of_week, oh.opens_at, oh.closes_at,
+                    r.name AS room_name
+             FROM   room_operating_hours oh
+             JOIN   rooms r ON r.id = oh.room_id
+             ORDER  BY r.name ASC, oh.day_of_week ASC, oh.opens_at ASC'
+        );
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     /* ==========================================================
      * UNAVAILABILITY (starts_at / ends_at stored in UTC)
      * ========================================================== */
