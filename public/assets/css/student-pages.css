@@ -1,0 +1,589 @@
+/* =============================================================
+   InFocus — Student Pages Styles
+   Member 4 — student dashboard, room discovery, room details,
+   reservations list, reservation details.
+
+   Uses ONLY the shared design tokens from variables.css plus the
+   shared component classes in components.css and the shared
+   reservation components from reservation-forms.css. Nothing here
+   redefines colours, typography, or spacing.
+   ============================================================= */
+
+/* ══════════════════════════════════════════════════════════════
+   ROOM DISCOVERY — search panel
+   ══════════════════════════════════════════════════════════════ */
+
+.filter-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xs);
+    margin-bottom: var(--space-6);
+}
+
+.filter-panel__body {
+    padding: var(--space-4) var(--space-6) var(--space-6);
+}
+
+.filter-panel__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-4);
+}
+
+.filter-panel__field {
+    min-width: 0;
+}
+
+.filter-panel__field--wide {
+    grid-column: span 4;
+}
+
+.filter-panel__fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.filter-panel__check-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    padding-top: var(--space-1);
+}
+
+.filter-panel__check {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+    white-space: nowrap;
+}
+
+.filter-panel__check input[type="checkbox"] {
+    accent-color: var(--color-primary);
+    width: 16px;
+    height: 16px;
+}
+
+.filter-panel__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+}
+
+/* Results info row (count + active filter chips) */
+.results-info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+}
+
+.results-info__count {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-heading);
+}
+
+.results-info__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: 2px 10px;
+    border-radius: var(--radius-full);
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+}
+
+.filter-chip a {
+    color: inherit;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.filter-chip a:hover {
+    color: var(--color-accent);
+}
+
+/* Collapsible behaviour on mobile */
+.filter-panel__toggle-row {
+    display: none;
+}
+
+.filter-panel__body[data-collapsed="true"] {
+    display: none;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ROOM CARD GRID
+   ══════════════════════════════════════════════════════════════ */
+
+.room-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6);
+}
+
+.room-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xs);
+    overflow: hidden;
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.room-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.room-card__link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.room-card__facilities-label {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--color-heading);
+    margin-bottom: var(--space-1);
+}
+
+.room-card__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+}
+
+.room-chip {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: var(--radius-full);
+    background: var(--color-neutral-bg);
+    border: 1px solid var(--color-border);
+    color: var(--color-muted);
+    font-size: var(--font-size-xs);
+}
+
+.room-chip--more {
+    background: var(--color-primary-soft);
+    border-color: transparent;
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.room-card__availability {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    margin-bottom: var(--space-2);
+}
+
+.room-card__availability svg {
+    flex-shrink: 0;
+}
+
+.room-card__availability--free {
+    color: var(--color-success);
+}
+
+.room-card__availability--busy {
+    color: var(--color-warning);
+}
+
+.room-card__category {
+    align-self: flex-start;
+    margin-bottom: var(--space-2);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ROOM DETAILS — top block (image + facts), then the shared
+   booking component from Member 3 renders full width below.
+   ══════════════════════════════════════════════════════════════ */
+
+.room-top {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    gap: var(--space-6);
+    margin-bottom: var(--space-6);
+}
+
+.room-details__img {
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--color-neutral-bg);
+    margin-bottom: var(--space-2);
+}
+
+.room-details__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.room-details__img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-border);
+}
+
+.room-details__image-note {
+    font-size: var(--font-size-xs);
+    color: var(--color-muted);
+    margin-top: calc(var(--space-1) * -1);
+    margin-bottom: var(--space-4);
+}
+
+.room-facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+
+.room-fact {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-3);
+}
+
+.room-fact__label {
+    font-size: var(--font-size-xs);
+    color: var(--color-muted);
+    margin-bottom: 2px;
+}
+
+.room-fact__value {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-heading);
+}
+
+/* Weekly operating hours */
+.hours-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-sm);
+}
+
+.hours-table th,
+.hours-table td {
+    text-align: left;
+    padding: var(--space-2) var(--space-1);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.hours-table:last-of-type {
+    border-bottom: 0;
+}
+
+.hours-table th {
+    color: var(--color-muted);
+    font-weight: 500;
+    font-size: var(--font-size-xs);
+}
+
+.hours-table td {
+    color: var(--color-text);
+}
+
+.hours-table__day {
+    color: var(--color-heading);
+    font-weight: 600;
+}
+
+.hours-table__closed {
+    color: var(--color-muted);
+    font-style: italic;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   STUDENT DASHBOARD
+   ══════════════════════════════════════════════════════════════ */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.next-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+}
+
+.next-step-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5, var(--space-6));
+    box-shadow: var(--shadow-xs);
+}
+
+.next-step-card__icon {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+    margin-bottom: var(--space-3);
+}
+
+.next-step-card__title {
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    color: var(--color-heading);
+    margin-bottom: var(--space-1);
+}
+
+.next-step-card__text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   MY RESERVATIONS — desktop table, mobile stacked cards
+   ══════════════════════════════════════════════════════════════ */
+
+.res-desktop {
+    /* Desktop-first: table visible, stacked cards hidden */
+}
+
+.res-mobile {
+    display: none;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.res-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    box-shadow: var(--shadow-xs);
+}
+
+.res-card__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+}
+
+.res-card__room {
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    color: var(--color-heading);
+    text-decoration: none;
+}
+
+.res-card__room:hover {
+    color: var(--color-primary);
+}
+
+.res-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+}
+
+.res-card__meta svg {
+    color: var(--color-muted);
+}
+
+.res-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.res-card__reason {
+    font-size: var(--font-size-xs);
+    color: var(--color-danger);
+    background: var(--color-danger-bg);
+    border-radius: var(--radius-md);
+    padding: var(--space-2) var(--space-3);
+    margin-bottom: var(--space-3);
+}
+
+/* Status tabs above the table */
+.res-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+}
+
+.res-tabs__tab {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--font-size-sm);
+    text-decoration: none;
+    transition: background var(--transition), color var(--transition);
+}
+
+.res-tabs__tab:hover {
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+}
+
+.res-tabs__tab--active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-surface);
+}
+
+.res-tabs__count {
+    margin-left: 6px;
+    font-size: var(--font-size-xs);
+    opacity: 0.75;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS (mobile-first per plan)
+   ══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 991px) {
+    .filter-panel__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .filter-panel__field--wide {
+        grid-column: span 2;
+    }
+
+    .room-grid,
+    .next-steps {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dashboard-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .room-top {
+        grid-template-columns: 1fr;
+    }
+
+    .room-facts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 575px) {
+    /* Collapsible filter panel on mobile */
+    .filter-panel__toggle-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--space-3) var(--space-4);
+    }
+
+    .filter-panel__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-panel__field--wide {
+        grid-column: span 1;
+    }
+
+    .filter-panel__actions {
+        justify-content: stretch;
+    }
+
+    .filter-panel__actions .btn {
+        flex: 1;
+    }
+
+    /* One-column card grid */
+    .room-grid,
+    .next-steps,
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .room-facts {
+        grid-template-columns: 1fr;
+    }
+
+    /* Swap table for stacked cards */
+    .res-desktop {
+        display: none;
+    }
+
+    .res-mobile {
+        display: flex;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   UTILITIES
+   ══════════════════════════════════════════════════════════════ */
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Reduced motion — match the shared application behaviour */
+@media (prefers-reduced-motion: reduce) {
+    .room-card,
+    .room-card:hover,
+    .res-tabs__tab,
+    .filter-chip a {
+        transition: none;
+    }
+
+    .room-card:hover {
+        transform: none;
+    }
+}
