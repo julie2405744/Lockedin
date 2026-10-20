@@ -68,10 +68,18 @@ $basePath = defined('BASE_PATH') ? BASE_PATH : '';
                 </div>
 
                 <div class="panel" style="margin-bottom:var(--space-6);">
-                    <div class="panel__header"><h2 class="panel__title">Student (Member 4 partial)</h2></div>
+                    <div class="panel__header"><h2 class="panel__title">Member 4 — Student Experience</h2></div>
                     <div class="panel__body" style="display:flex;flex-wrap:wrap;gap:var(--space-3);">
                         <a class="btn btn--primary" href="<?= esc($basePath) ?>/student/dashboard.php">Student Dashboard</a>
-                        <a class="btn btn--secondary" href="<?= esc($basePath) ?>/">Home (redirect)</a>
+                        <a class="btn btn--secondary" href="<?= esc($basePath) ?>/student/rooms.php">Find a Study Room</a>
+                        <a class="btn btn--secondary" href="<?= esc($basePath) ?>/student/room-details.php?id=3">Room Details</a>
+                        <a class="btn btn--secondary" href="<?= esc($basePath) ?>/student/reservations.php">My Reservations</a>
+                        <a class="btn btn--secondary" href="<?= esc($basePath) ?>/student/reservation-details.php?id=103">Reservation Details</a>
+                        <a class="btn btn--secondary" href="<?= esc($basePath) ?>/student/reservation-cancel.php?id=103">Cancel Flow</a>
+                        <a class="btn btn--secondary" href="<?= esc($basePath) ?>/student/reservation-modify.php?id=103">Modify Flow</a>
+                    </div>
+                    <div class="panel__body" style="border-top:1px solid var(--color-border);">
+                        <p class="form-hint">Student pages require a signed-in student account (frontend build: sample data; room discovery filters it live; reservation actions show the preview notice until the engine lands).</p>
                     </div>
                 </div>
 

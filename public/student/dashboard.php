@@ -1,31 +1,75 @@
 ﻿<?php
 /**
  * public/student/dashboard.php
- * Student dashboard stub — to be completed by Member 4.
+ * Student dashboard — Member 4 (frontend F4).
+ *
+ * FRONTEND-BUILD MODE:
+ * Statistics and the upcoming list are derived from the shared sample
+ * dataset while Member 3's ReservationService is not integrated yet.
+ * No database access and no booking rules live here.
+ *
+ * Future integration point:
+ *   $reservations = (new ReservationService(...))->getStudentReservations(Auth::id());
  */
 
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../app/Core/Auth.php';
 require_once __DIR__ . '/../../app/Core/Csrf.php';
 require_once __DIR__ . '/../../app/Core/helpers.php';
+require_once __DIR__ . '/../../app/Modules/Reservations/Views/_reservation-helpers.php';
 
 Auth::startSession();
 Auth::requireStudent();
 
-$currentUser  = Auth::user();
+$basePath = defined('BASE_PATH') ? BASE_PATH : '';
+$pageStyles = '<link rel="stylesheet" href="' . esc($basePath) . '/assets/css/student-pages.css">';
+
+$currentUser = Auth::user();
+$sample      = require __DIR__ . '/../../app/Modules/Student/_sample-data.php';
+
+/* ── Segment the sample reservations (compiled lines replace this) ── */
+try {
+    $nowUtc = (new DateTimeImmutable('now', new DateTimeZone('UTC')))->format('Y-m-d H:i:s');
+} catch (Exception $e) {
+    $nowUtc = date('Y-m-d H:i:s');
+}
+
+$upcoming = [];
+$pastCount = 0;
+$pendingCount = 0;
+
+foreach ($sample['reservations'] as $reservation) {
+    $isUpcoming = ($reservation['starts_at'] ?? '') > $nowUtc
+        && in_array($reservation['status'] ?? '', ['pending', 'confirmed'], true);
+
+    if ($isUpcoming) {
+        $upcoming[] = $reservation;
+        if (($reservation['status'] ?? '') === 'pending') {
+            $pendingCount++;
+        }
+    } else {
+        $pastCount++;
+    }
+}
+
+// Order upcoming by — not booked yet — chronological closest first.
+usort($upcoming, static fn(array $a, array $b): int => strcmp((string) $a['starts_at'], (string) $b['starts_at']));
+
+$modification             = $sample['modification'] ?? null;
+$hasPendingModification   = is_array($modification) && ($modification['status'] ?? '') === 'pending';
+
+$stats = [
+    'upcoming' => count($upcoming),
+    'pending'  => $pendingCount,
+    'past'     => $pastCount,
+];
+
+/* ── Render ─────────────────────────────────────────────────────── */
 $pageTitle    = 'Dashboard';
-$pageSubtitle = 'Welcome back, ' . esc($currentUser['name']) . '.';
+$pageSubtitle = 'Welcome back, ' . $currentUser['name'] . '. Here is where your study space planning stands.';
 
 ob_start();
-?>
-<div class="empty-state" style="padding:var(--space-12) 0;">
-    <div class="empty-state__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2M9 10h6M9 14h6M9 18h4"/></svg></div>
-    <h2 class="empty-state__title">Student dashboard</h2>
-    <p class="empty-state__description">
-        Member 4 will build this page. Check back once the student experience module is complete.
-    </p>
-    <a href="/student/rooms.php" class="btn btn--primary">Find a room</a>
-</div>
-<?php
+require __DIR__ . '/../../app/Modules/Student/Views/dashboard-view.php';
 $content = ob_get_clean();
+
 require __DIR__ . '/../../app/Views/layouts/app-layout.php';
