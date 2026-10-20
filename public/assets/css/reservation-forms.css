@@ -1,0 +1,347 @@
+
+
+@import './variables.css';
+
+/* ── Two-column reservation layout ─────────────────────────── */
+.reservation-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: var(--space-6);
+    align-items: start;
+}
+
+.reservation-layout__main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    min-width: 0;
+}
+
+.reservation-layout__aside {
+    min-width: 0;
+}
+
+@media (max-width: 991px) {
+    .reservation-layout { grid-template-columns: 1fr; }
+}
+
+/* ── Room / reservation context block ──────────────────────── */
+.reservation-context {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.reservation-context__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+}
+
+.reservation-context__name {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--color-heading);
+}
+
+.reservation-context__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.reservation-context__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+}
+
+.reservation-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--font-size-xs);
+    color: var(--color-muted);
+}
+
+.reservation-meta svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+/* ── Facility chips ────────────────────────────────────────── */
+.reservation-facilities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.reservation-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    background: var(--color-neutral-bg);
+    border: 1px solid var(--color-border);
+    font-size: var(--font-size-xs);
+    color: var(--color-text);
+}
+
+/* ── Form internals ────────────────────────────────────────── */
+.reservation-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+.reservation-fieldset {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin: 0;
+}
+
+.reservation-fieldset > legend {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-heading);
+    padding: 0 var(--space-1);
+}
+
+.reservation-interval {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+}
+
+@media (max-width: 575px) {
+    .reservation-interval { grid-template-columns: 1fr; }
+}
+
+/* ── Summary card ──────────────────────────────────────────── */
+.reservation-summary {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-4));
+}
+
+.reservation-summary__list {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.reservation-summary__row {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-border);
+    margin: 0;
+}
+
+.reservation-summary__row:first-child { padding-top: 0; }
+.reservation-summary__row:last-child { border-bottom: none; padding-bottom: 0; }
+
+.reservation-summary__label {
+    font-size: var(--font-size-sm);
+    color: var(--color-muted);
+    margin: 0;
+}
+
+.reservation-summary__value {
+    font-size: var(--font-size-sm);
+    color: var(--color-heading);
+    font-weight: 600;
+    text-align: right;
+    margin: 0;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.reservation-summary__total {
+    margin-top: var(--space-2);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+}
+
+.reservation-summary__total .reservation-summary__value { font-size: var(--font-size-md); }
+
+.reservation-duration { font-size: var(--font-size-sm); }
+.reservation-duration--invalid { color: var(--color-danger); }
+
+@media (max-width: 991px) {
+    .reservation-summary { position: static; }
+}
+
+/* ── Comparison (original vs proposed) ─────────────────────── */
+.reservation-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    align-items: stretch;
+}
+
+@media (max-width: 767px) {
+    .reservation-compare { grid-template-columns: 1fr; }
+}
+
+.reservation-compare__card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    min-width: 0;
+}
+
+.reservation-compare__card--proposed {
+    border-color: rgba(19, 40, 94, 0.25);
+    background: var(--color-primary-soft);
+}
+
+.reservation-compare__eyebrow {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-muted);
+}
+
+.reservation-compare__room {
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    color: var(--color-heading);
+}
+
+.reservation-compare__row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.reservation-compare__label {
+    font-size: var(--font-size-xs);
+    color: var(--color-muted);
+}
+
+.reservation-compare__value {
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+}
+
+.reservation-compare__value--changed {
+    color: var(--color-heading);
+    font-weight: 600;
+}
+
+/* ── Fact strip ────────────────────────────────────────────── */
+.reservation-facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: var(--space-4);
+}
+
+.reservation-fact__label {
+    font-size: var(--font-size-xs);
+    color: var(--color-muted);
+    margin-bottom: 2px;
+}
+
+.reservation-fact__value {
+    font-size: var(--font-size-sm);
+    color: var(--color-heading);
+    font-weight: 500;
+}
+
+/* ── Reason / note blocks ──────────────────────────────────── */
+.reservation-reason {
+    border-left: 3px solid var(--color-border);
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-neutral-bg);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+}
+
+.reservation-reason--rejected {
+    border-left-color: var(--color-danger);
+    background: var(--color-danger-bg);
+    color: var(--color-danger);
+}
+
+.reservation-reason--invalid {
+    border-left-color: var(--color-warning);
+    background: var(--color-warning-bg);
+    color: var(--color-warning);
+}
+
+/* ── Action row ────────────────────────────────────────────── */
+.reservation-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+}
+
+.reservation-actions--end { justify-content: flex-end; }
+.reservation-actions__form { display: inline-flex; }
+
+/* ── Inline helper notice ──────────────────────────────────── */
+.reservation-notice {
+    display: flex;
+    gap: var(--space-2);
+    align-items: flex-start;
+    font-size: var(--font-size-xs);
+    color: var(--color-muted);
+}
+
+.reservation-notice svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* ── Panel spacing helper for stacked form panels ──────────── */
+.reservation-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+/* ── Preview harness (Member 3 component preview page) ─────── */
+.reservation-preview-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+}
+
+.reservation-preview-section__title {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--color-heading);
+}
+
+.reservation-preview-section__hint {
+    font-size: var(--font-size-sm);
+    color: var(--color-muted);
+    max-width: 720px;
+}
+
+/* ── Reduced motion ────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .reservation-actions .btn,
+    .reservation-compare__card {
+        transition: none;
+    }
+}
