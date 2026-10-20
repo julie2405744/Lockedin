@@ -24,7 +24,7 @@ ob_start();
     <p class="empty-state__description">
         Member 4 will build this page. Check back once the student experience module is complete.
     </p>
-    <a href="/student/rooms.php" class="btn btn--primary">Find a room</a>
+    <a href="<?= htmlspecialchars(BASE_PATH) ?>/student/rooms.php" class="btn btn--primary">Find a room</a>
 </div>
 <?php
 $content = ob_get_clean();
