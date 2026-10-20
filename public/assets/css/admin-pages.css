@@ -1,0 +1,401 @@
+/* =============================================================
+   InFocus — Admin pages module CSS — Member 5
+   Vanilla CSS3, no preprocessor, no new design tokens.
+
+   Everything here is built on the shared tokens from variables.css
+   (colours, spacing, radii, shadows, typography) so the admin module
+   never introduces a second design system.
+   ============================================================= */
+
+/* ── Summary cards ──────────────────────────────────────────── */
+
+.admin-summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-6);
+    margin-bottom: var(--space-6);
+}
+
+@media (max-width: 1199px) {
+    .admin-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 575px) {
+    .admin-summary { grid-template-columns: 1fr; }
+}
+
+.admin-summary__card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-xs);
+    display: block;
+    color: inherit;
+    transition: box-shadow var(--transition), transform var(--transition);
+}
+
+a.admin-summary__card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.admin-summary__label {
+    font-size: var(--font-size-sm);
+    color: var(--color-muted);
+    font-weight: 500;
+    margin-bottom: var(--space-2);
+}
+
+.admin-summary__value {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    color: var(--color-heading);
+    line-height: 1;
+    margin-bottom: var(--space-2);
+}
+
+.admin-summary__sub {
+    font-size: var(--font-size-xs);
+    color: var(--color-muted);
+}
+
+.admin-summary__card--attention .admin-summary__value { color: var(--color-warning); }
+
+/* ── Two column content ─────────────────────────────────────── */
+
+.admin-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6);
+    margin-bottom: var(--space-6);
+    align-items: start;
+}
+
+@media (max-width: 991px) {
+    .admin-columns { grid-template-columns: 1fr; }
+}
+
+/* ── Tables inside panels ───────────────────────────────────── */
+
+.admin-panel-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-sm);
+}
+
+.admin-panel-table th {
+    padding: var(--space-3) var(--space-4);
+    text-align: left;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.admin-panel-table td {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+    color: var(--color-text);
+}
+
+.admin-panel-table tbody tr:last-child td { border-bottom: 0; }
+.admin-panel-table tbody tr:hover { background: var(--color-neutral-bg); }
+
+.admin-panel-table__meta {
+    display: block;
+    font-size: var(--font-size-xs);
+    color: var(--color-muted);
+}
+
+.admin-nowrap {
+    white-space: nowrap;
+}
+
+.admin-panel-table__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+}
+
+/* Admin tables carry several columns, so their headers may wrap instead of
+   forcing the table wider than its container. */
+.admin-table th {
+    white-space: normal;
+}
+
+/* ── Responsive tables (stacked cards on small screens) ─────── */
+
+@media (max-width: 767px) {
+    .admin-table thead { display: none; }
+
+    .admin-table,
+    .admin-table tbody,
+    .admin-table tr,
+    .admin-table td { display: block; width: 100%; }
+
+    .admin-table tbody tr {
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        background: var(--color-surface);
+        margin-bottom: var(--space-3);
+        padding: var(--space-2) var(--space-4);
+    }
+
+    .admin-table tbody td {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: var(--space-4);
+        padding: var(--space-2) 0;
+        border-bottom: 0;
+        text-align: right;
+    }
+
+    .admin-table tbody td::before {
+        content: attr(data-label);
+        flex: 0 0 auto;
+        font-size: var(--font-size-xs);
+        font-weight: 600;
+        color: var(--color-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        text-align: left;
+    }
+
+    .admin-table tbody td:last-child { padding-bottom: var(--space-3); }
+}
+
+/* ── Detail facts ───────────────────────────────────────────── */
+
+.admin-facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4) var(--space-6);
+    margin: 0;
+}
+
+@media (max-width: 991px) {
+    .admin-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 575px) {
+    .admin-facts { grid-template-columns: 1fr; }
+}
+
+.admin-facts__item { min-width: 0; }
+
+.admin-facts__label {
+    font-size: var(--font-size-xs);
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: var(--space-1);
+}
+
+.admin-facts__value {
+    font-size: var(--font-size-md);
+    color: var(--color-heading);
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.admin-facts__value--muted {
+    color: var(--color-muted);
+    font-weight: 500;
+}
+
+/* ── Review actions ─────────────────────────────────────────── */
+
+.admin-review {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    align-items: flex-start;
+}
+
+.admin-review__form {
+    flex: 1 1 260px;
+    min-width: 0;
+}
+
+.admin-review__actions {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+}
+
+.admin-review__note {
+    flex: 1 1 100%;
+    font-size: var(--font-size-xs);
+    color: var(--color-muted);
+}
+
+/* ── Utilization bars ───────────────────────────────────────── */
+
+.admin-util {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-width: 130px;
+}
+
+.admin-util__track {
+    flex: 1 1 auto;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: var(--color-neutral-bg);
+    overflow: hidden;
+}
+
+.admin-util__fill {
+    display: block;
+    height: 100%;
+    border-radius: var(--radius-full);
+    background: var(--color-primary);
+}
+
+.admin-util__fill--low      { background: var(--color-primary-soft); }
+.admin-util__fill--high     { background: var(--color-primary); }
+.admin-util__value {
+    flex: 0 0 auto;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--color-heading);
+    min-width: 46px;
+    text-align: right;
+}
+
+.admin-util__value--na {
+    color: var(--color-muted);
+    font-weight: 500;
+}
+
+/* ── Quick links ────────────────────────────────────────────── */
+
+.admin-quicklinks {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-4);
+}
+
+@media (max-width: 991px) {
+    .admin-quicklinks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 575px) {
+    .admin-quicklinks { grid-template-columns: 1fr; }
+}
+
+.admin-quicklink {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-heading);
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+}
+
+.admin-quicklink:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+}
+
+.admin-quicklink__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex: 0 0 auto;
+    border-radius: var(--radius-md);
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+}
+
+.admin-quicklink__icon svg { width: 18px; height: 18px; }
+
+/* ── Filter summary ─────────────────────────────────────────── */
+
+.admin-filter-summary {
+    font-size: var(--font-size-sm);
+    color: var(--color-muted);
+    margin-bottom: var(--space-4);
+}
+
+.admin-filter-summary strong { color: var(--color-heading); }
+
+/* ── Report totals ──────────────────────────────────────────── */
+
+.admin-totals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+    padding: var(--space-4) var(--space-6);
+    border-top: 1px solid var(--color-border);
+    background: var(--color-neutral-bg);
+}
+
+.admin-total__label {
+    font-size: var(--font-size-xs);
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.admin-total__value {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--color-heading);
+}
+
+/* ── Small helpers ──────────────────────────────────────────── */
+
+.admin-empty-inline {
+    padding: var(--space-8) var(--space-4);
+    text-align: center;
+    color: var(--color-muted);
+    font-size: var(--font-size-sm);
+}
+
+.admin-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+.admin-backlink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-sm);
+    color: var(--color-muted);
+    margin-bottom: var(--space-4);
+}
+
+.admin-backlink:hover { color: var(--color-primary); }
+
+/* ── Reduced motion ─────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+    .admin-summary__card,
+    .admin-quicklink {
+        transition: none;
+    }
+
+    .admin-summary__card:hover,
+    .admin-quicklink:hover {
+        transform: none;
+    }
+}
