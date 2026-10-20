@@ -1,30 +1,48 @@
 ﻿<?php
 /**
  * public/admin/dashboard.php
- * Admin dashboard stub — to be completed by Member 5.
+ * Admin dashboard — Member 5.
+ *
+ * Shows the summary metrics from ReportService and the two review queues.
+ * Every number comes from the service; this page only arranges the data.
  */
 
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../app/Core/Auth.php';
 require_once __DIR__ . '/../../app/Core/Csrf.php';
 require_once __DIR__ . '/../../app/Core/helpers.php';
+require_once __DIR__ . '/../../app/Repositories/ReportRepository.php';
+require_once __DIR__ . '/../../app/Repositories/AdminReviewRepository.php';
+require_once __DIR__ . '/../../app/Services/ReportService.php';
+require_once __DIR__ . '/../../app/Services/AdminReviewService.php';
 
 Auth::startSession();
 Auth::requireAdmin();
 
-$currentUser  = Auth::user();
+$currentUser = Auth::user();
+$basePath    = defined('BASE_PATH') ? BASE_PATH : '';
+
+$reportService = new ReportService(new ReportRepository($pdo));
+$reviewService = new AdminReviewService(new AdminReviewRepository($pdo), $pdo);
+
+/* ── Data ────────────────────────────────────────────────────── */
+$summary = $reportService->getDashboardSummary();
+$metrics = $summary['data'] ?? [];
+
+$pendingReservations  = $reviewService->getPendingReservations(['limit' => 5])['data']['rows'] ?? [];
+$pendingModifications = $reviewService->getPendingModifications(['limit' => 5])['data']['rows'] ?? [];
+
+$flash = $_SESSION['admin_flash'] ?? null;
+unset($_SESSION['admin_flash']);
+
+/* ── Page ────────────────────────────────────────────────────── */
 $pageTitle    = 'Admin Dashboard';
-$pageSubtitle = 'Overview and pending actions.';
+$pageSubtitle = 'Reservations waiting for a decision, modification requests, and room activity at a glance.';
+$pageStyles   = '<link rel="stylesheet" href="' . esc($basePath) . '/assets/css/admin-pages.css">';
+$pageScripts  = '<script src="' . esc($basePath) . '/assets/js/report-filters.js" defer></script>';
 
 ob_start();
-?>
-<div class="empty-state" style="padding:var(--space-12) 0;">
-    <div class="empty-state__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m14.7 6.3 3-3a4.2 4.2 0 0 1-5.3 5.3L5 16a2.1 2.1 0 1 1-3-3l7.4-7.4a4.2 4.2 0 0 1 5.3-5.3l-3 3z"/></svg></div>
-    <h2 class="empty-state__title">Admin dashboard</h2>
-    <p class="empty-state__description">
-        Member 5 will build this page. Check back once the admin dashboard module is complete.
-    </p>
-</div>
-<?php
+require __DIR__ . '/../../app/Modules/Admin/Views/dashboard-view.php';
 $content = ob_get_clean();
+
 require __DIR__ . '/../../app/Views/layouts/app-layout.php';
